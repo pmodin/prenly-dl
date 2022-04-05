@@ -8,8 +8,10 @@ pypdf2 = "*"
 pillow = "*"
 img2pdf = "*"
 requests = "*"
+selenium-wire = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.10"

@@ -241,6 +241,22 @@ def opts(argv):
 
     main(conf)
 
+def get_tokens(conf):
+    from seleniumwire import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
+
+    driver = webdriver.Chrome()
+    driver.implicitly_wait(10) # seconds
+    driver.get(conf["credentials"]["site"] + '/#sign-in')
+
+    driver.find_element(by=By.NAME, value='prenlyLogin').send_keys(conf["credentials"]["username"])
+    driver.find_element(by=By.NAME, value='prenlyPassword').send_keys(conf["credentials"]["password"], Keys.ENTER)
+
+    bearer = [x.headers['authorization'] for x in driver.requests if x.headers['authorization']][0]
+    textalk = [x.headers['x-textalk-content-client-authorize'] for x in driver.requests if x.headers['x-textalk-content-client-authorize']][0]
+
+    return bearer, textalk
 
 if __name__ == '__main__':
     opts(sys.argv[1:])
