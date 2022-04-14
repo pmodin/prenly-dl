@@ -253,8 +253,8 @@ def get_tokens(conf):
     driver.find_element(by=By.NAME, value='prenlyLogin').send_keys(conf["credentials"]["username"])
     driver.find_element(by=By.NAME, value='prenlyPassword').send_keys(conf["credentials"]["password"], Keys.ENTER)
 
-    bearer = [x.headers['authorization'] for x in driver.requests if x.headers['authorization']][0]
-    textalk = [x.headers['x-textalk-content-client-authorize'] for x in driver.requests if x.headers['x-textalk-content-client-authorize']][0]
+    bearer = next(x.headers['authorization'] for x in driver.requests if x.headers['authorization'])
+    textalk = next(x.headers['x-textalk-content-client-authorize'] for x in driver.requests if x.headers['x-textalk-content-client-authorize'])
 
     return bearer, textalk
 
